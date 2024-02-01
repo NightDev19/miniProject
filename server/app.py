@@ -33,13 +33,24 @@ def signup():
         data = request.get_json()
         username = data.get('username')
         password = data.get('password')
+        name = data.get('name')
+        age = data.get('age')
+        address = data.get('address')
+        birthday = data.get('birthday')
+        nickname = data.get('nickname')
 
         if User.query.filter_by(username=username).first():
             return jsonify({'error': 'Username already taken'}), 400
 
         hashed_password = generate_password_hash(
             password, method='pbkdf2:sha256')
-        new_user = User(username=username, password=hashed_password)
+        new_user = User(username=username,
+                        password=hashed_password,
+                        name=name,
+                        age=age,
+                        address=address,
+                        birthday=birthday,
+                        nickname=nickname,)
         db.session.add(new_user)
         db.session.commit()
 
